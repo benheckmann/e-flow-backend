@@ -1,3 +1,3 @@
 
 DATABASE_NAME = "energy-mix-database"
-TABLE_NAME = "energy-readings"
+TABLE_NAME = "energy-mix"
