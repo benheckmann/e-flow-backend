@@ -1,0 +1,44 @@
+[GET "/api/jobs"]
+  headers: {
+    authorisation: (??? - look at AWS integration),
+    filters: (Out of scope probably)
+  }
+
+  returns: {
+    id:     (string - from cloud platform),
+    name:   (string - from cloud platform),
+    source: ("aws lambda" | others???)
+  }
+
+[POST "/api/enroll"]
+  headers: {
+    id:     (string - from AWS),
+    start:  (unix timestamp),
+    end:    (unix timestamp)
+  }
+
+  returns: no content/204
+
+[GET "/api/energy-mix"]
+
+  headers: {
+    start:   (unix timestamp),
+    end:     (unix timestamp),
+    country: (ISO Country Code)
+  }
+
+  response: [
+    {
+      timestamp:      (int64),
+      coal:           (int),
+      gas:            (int),
+      wind:           (int),
+      nuclear:        (int),
+      solar:          (int),
+      oil:            (int),
+      hydroelectric:  (int),
+      others:         (int),
+      pumped storage: (int),
+      exported:       (int)
+    }
+  ]
