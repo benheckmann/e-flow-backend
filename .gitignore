@@ -1,3 +1,6 @@
 *.kms
 venv/
 __pycache__/
+# ide
+.idea
+.vscode
