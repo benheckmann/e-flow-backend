@@ -8,7 +8,7 @@ ENERGY_TYPES = {
     "Nucléaire": "nuclear",
     "Charbon": "coal",
     "Gaz": "gas",
-    "Fioul": "oil",
+    "Fioul": "heavy-oil",
     "Pointe": "oil",
     "Fioul + Pointe": "oil",
     "Hydraulique": "hydro",
@@ -47,9 +47,11 @@ def parse_xml_day(day_element: ET.Element) -> List[Dict]:
             energy_type = ENERGY_TYPES[energy_type_element.attrib["v"]]
             try:
                 value = int(period_element.text)
-            except:
+            except ValueError:
                 value = 0
-            result[int(period_element.attrib["periode"])][energy_type] = value
+            energy_sum = result[int(period_element.attrib["periode"])].get(energy_type, 0)
+            energy_sum += value
+            result[int(period_element.attrib["periode"])][energy_type] = energy_sum
     return result
 
 
@@ -72,7 +74,6 @@ def get_url_for_day(day: datetime.date) -> str:
     Return the url to request the energy mix data for a single day from https://eco2mix.rte-france.com/curves/eco2mixWeb
     e.g. https://eco2mix.rte-france.com/curves/eco2mixWeb?type=mix&dateDeb=27/10/2022&dateFin=27/10/2022&mode=NORM
     """
-    # not sure if this is correct yet
     return f"https://eco2mix.rte-france.com/curves/eco2mixWeb?type=mix&dateDeb={day.strftime('%d/%m/%Y')}&dateFin={day.strftime('%d/%m/%Y')}&mode=NORM"
 
 
